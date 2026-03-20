@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useCallback } from "react";
-import Image from "next/image";
 import styles from "./WarpTransition.module.css";
 
 interface WarpStar {
@@ -32,7 +31,10 @@ export default function WarpTransition({ id }: Props) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const lunarRef = useRef<HTMLImageElement>(null);
+  
   const progressRef = useRef(0);
+  const lastDrawnProgressRef = useRef(-1);
+  const isVisibleRef = useRef(false);
   const rafRef = useRef<number>(0);
   const starsRef = useRef<WarpStar[]>(initStars());
 
@@ -47,16 +49,13 @@ export default function WarpTransition({ id }: Props) {
     const cx = W / 2;
     const cy = H / 2;
 
-    // Clear with a very subtle dark overlay that adds motion blur feel
     ctx.clearRect(0, 0, W, H);
 
-    // Subtle radial vignette / glow to centre
     const ease = Math.pow(progress, 0.7); // ease-in curve
     const intensity = ease;
 
     if (intensity < 0.01) return;
 
-    // Draw warp lines
     const stars = starsRef.current;
     stars.forEach((star) => {
       const maxLen = (star.distance + 200) * intensity * star.speed * 3.2;
@@ -88,7 +87,6 @@ export default function WarpTransition({ id }: Props) {
       ctx.restore();
     });
 
-    // Central core glow
     if (intensity > 0.05) {
       const glowR = 60 + intensity * 120;
       const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, glowR);
@@ -104,11 +102,9 @@ export default function WarpTransition({ id }: Props) {
   const updateLunar = useCallback((progress: number) => {
     const lunar = lunarRef.current;
     if (!lunar) return;
-    // Start rising at 15% progress, fully shown (shifted up) by 85%
     const rise = Math.max(0, (progress - 0.12) / 0.73);
     const clampedRise = Math.min(rise, 1);
-    // translateY: 100% (fully hidden below) → 0% (fully visible)  
-    const translateY = 100 - clampedRise * 55; // only rise up to show ~55% of image
+    const translateY = 100 - clampedRise * 55;
     lunar.style.transform = `translateX(-50%) translateY(${translateY}%)`;
     lunar.style.opacity = String(Math.min(clampedRise * 1.8, 1));
   }, []);
@@ -118,10 +114,10 @@ export default function WarpTransition({ id }: Props) {
     const canvas = canvasRef.current;
     if (!section || !canvas) return;
 
-    // Set canvas resolution
     const resize = () => {
       canvas.width = section.offsetWidth;
       canvas.height = section.offsetHeight;
+      lastDrawnProgressRef.current = -1; // force redraw on resize
     };
     resize();
     const ro = new ResizeObserver(resize);
@@ -130,8 +126,6 @@ export default function WarpTransition({ id }: Props) {
     const onScroll = () => {
       const rect = section.getBoundingClientRect();
       const vh = window.innerHeight;
-      // progress 0 when section top is at bottom of viewport
-      // progress 1 when section bottom is at top of viewport
       const total = vh + rect.height;
       const traveled = vh - rect.top;
       const p = Math.max(0, Math.min(1, traveled / total));
@@ -139,19 +133,38 @@ export default function WarpTransition({ id }: Props) {
     };
 
     const animate = () => {
-      drawFrame(progressRef.current);
-      updateLunar(progressRef.current);
+      // Only draw if visible and progress has changed
+      if (isVisibleRef.current && progressRef.current !== lastDrawnProgressRef.current) {
+        drawFrame(progressRef.current);
+        updateLunar(progressRef.current);
+        lastDrawnProgressRef.current = progressRef.current;
+      }
       rafRef.current = requestAnimationFrame(animate);
     };
 
+    // Intersection Observer to pause animation when off-screen
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        isVisibleRef.current = entry.isIntersecting;
+        if (entry.isIntersecting) {
+            // Force an initial draw when becoming visible
+            onScroll();
+            lastDrawnProgressRef.current = -1; 
+        }
+      });
+    }, { threshold: 0 });
+    
+    io.observe(section);
+
     window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll(); // init
+    onScroll(); 
     rafRef.current = requestAnimationFrame(animate);
 
     return () => {
       window.removeEventListener("scroll", onScroll);
-      cancelAnimationFrame(rafRef.current);
+      io.disconnect();
       ro.disconnect();
+      cancelAnimationFrame(rafRef.current);
     };
   }, [drawFrame, updateLunar]);
 
