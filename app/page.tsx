@@ -37,7 +37,7 @@ export default function Home() {
       isTransitioning.current = true;
       setTimeout(() => {
         isTransitioning.current = false;
-      }, 1000); 
+      }, 550); 
       return next;
     });
   };
