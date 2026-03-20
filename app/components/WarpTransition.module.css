@@ -3,19 +3,17 @@
   width: 100%;
   height: 100vh;
   overflow: hidden;
-  /* Stars bg shows through via fixed bg on parent */
 }
 
-/* Lunar surface rises from bottom */
+/* Lunar surface sits at the bottom of the section */
 .lunar {
   position: absolute;
   bottom: 0;
   left: 50%;
-  transform: translateX(-50%) translateY(100%);
+  transform: translateX(-50%);
   width: 100%;
   z-index: 2;
   pointer-events: none;
-  will-change: transform;
   /* Let the transparent PNG composite naturally */
   mix-blend-mode: normal;
 }
