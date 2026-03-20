@@ -43,11 +43,18 @@
   text-align: center;
 }
 
-/* ── Name ── */
+/* ── Name and Titles ── */
+.titleGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .name {
-  font-family: var(--font-montserrat), sans-serif;
+  font-family: var(--font-space-mono), monospace;
   font-size: clamp(2.4rem, 6vw, 5rem);
-  font-weight: 900;
+  font-weight: 700; /* Bold */
   color: #ffffff;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -55,6 +62,45 @@
     0 0 40px rgba(255, 255, 255, 0.35),
     0 2px 8px rgba(0, 0, 0, 0.8);
   user-select: none;
+  position: relative;
+  z-index: 2; /* Sits above subtitle wrapper to hide clipping if needed */
+}
+
+/* ── Animated Subtitle Carousel ── */
+.subtitleWrapper {
+  position: relative;
+  height: clamp(1.5rem, 4vw, 3rem); /* Reserve space */
+  width: 100%;
+  overflow: hidden; /* Clips text sliding up so it doesn't touch the name */
+  display: flex;
+  justify-content: center;
+}
+
+.subtitle {
+  position: absolute;
+  /* Default inactive state: sliding away up */
+  top: -100%; 
+  opacity: 0;
+  font-family: var(--font-space-mono), monospace;
+  font-weight: 400; /* Lighter weight */
+  font-size: clamp(1rem, 2.5vw, 1.8rem);
+  color: #a0c8ff; /* Soft tech-blue tint */
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+  /* Text shadow for legibility over stars */
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+}
+
+.subtitleActive {
+  top: 0;
+  opacity: 1;
+}
+
+/* Items that haven't been reached yet stay at bottom */
+.subtitleActive ~ .subtitle {
+  top: 100%;
 }
 
 /* ── Astronaut ── */
