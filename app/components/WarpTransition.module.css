@@ -6,16 +6,6 @@
   /* Stars bg shows through via fixed bg on parent */
 }
 
-/* Canvas fills the full section for warp lines */
-.canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  pointer-events: none;
-}
-
 /* Lunar surface rises from bottom */
 .lunar {
   position: absolute;
@@ -23,7 +13,6 @@
   left: 50%;
   transform: translateX(-50%) translateY(100%);
   width: 100%;
-  max-width: 1400px;
   z-index: 2;
   pointer-events: none;
   will-change: transform;
