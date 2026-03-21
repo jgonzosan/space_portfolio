@@ -1,3 +1,5 @@
+
+
 .section {
   position: relative;
   width: 100%;
@@ -6,20 +8,35 @@
   z-index: 1;
 }
 
-/* Lunar surface sits at the bottom of the section */
+/* ── Subtle dot-grid overlay ── */
+.section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--clr-blue) 40%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 36px 36px;
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 4;
+}
+
+
+/* Image fills the entire section */
 .lunar {
   position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100vw;
-  min-height: 40vh;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  object-position: top;
+  object-position: center;
   z-index: 2;
   pointer-events: none;
-  mix-blend-mode: normal;
 }
+
 
 /* ── Overlay container centred above the background image ── */
 .overlay {
@@ -47,4 +64,3 @@
   justify-content: center;
   gap: 6rem;
 }
-

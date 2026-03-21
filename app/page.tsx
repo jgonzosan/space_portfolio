@@ -17,12 +17,12 @@ export default function Home() {
     setCurrentIndex((prev) => {
       const next = prev + direction;
       if (next < 0 || next >= totalSections) return prev;
-      
+
       // Lock for the duration of the bounce animation
       isTransitioning.current = true;
       setTimeout(() => {
         isTransitioning.current = false;
-      }, 550); 
+      }, 550);
       return next;
     });
   };
@@ -53,6 +53,38 @@ export default function Home() {
     "Veteran"
   ];
 
+  // Placeholder content for the 4 side panels
+  const panelContents = [
+    {
+      company: "Tech Corp Alpha",
+      position: "Software Engineer V",
+      dateRange: "JAN 2024 - MAR 2026",
+      description: "Led development of core orbital infrastructure, reducing latency by 45%. Spearheaded the migration to modern frontend frameworks. Mentored junior engineers and established new testing protocols for mission-critical systems.",
+      skills: ["Javascript", "React", "Python", "AI"]
+    },
+    {
+      company: "Beta Systems Array",
+      position: "UI Developer Lead",
+      dateRange: "FEB 2022 - DEC 2023",
+      description: "Designed and implemented next-generation heads-up displays for automated rovers. Improved user metric tracking and dashboard fidelity across all planetary outposts.",
+      skills: ["Typescript", "Next.js", "WebGL", "Figma"]
+    },
+    {
+      company: "Gamma Logistics",
+      position: "Full Stack Developer",
+      dateRange: "AUG 2019 - JAN 2022",
+      description: "Built supply chain management tools handling over 10M daily transactions. Optimized database queries and refactored legacy microservices to improve overall system uptime.",
+      skills: ["Node.js", "PostgreSQL", "Docker", "AWS"]
+    },
+    {
+      company: "Delta Defense",
+      position: "Systems Technician",
+      dateRange: "MAY 2015 - JUL 2019",
+      description: "Maintained secure communication relays and performed cryptographic audits. Ensured 99.999% uptime for outer-rim defense networks.",
+      skills: ["Linux", "Bash", "Security", "Networking"]
+    }
+  ];
+
   useEffect(() => {
     const interval = setInterval(() => {
       setSubtitleIndex((prev) => (prev + 1) % subtitles.length);
@@ -69,33 +101,61 @@ export default function Home() {
   }, []);
 
   return (
-    <div 
+    <div
       className={styles.page}
       onWheel={handleWheel}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      <div 
+      <div
         className={styles.container}
         style={{ transform: `translateY(-${currentIndex * 100}vh)` }}
       >
         {/* ── Hero ── */}
         <section className={styles.hero}>
           <div className={styles.content}>
-            <div className={styles.titleGroup}>
-              <h1 className={styles.name}>Jonathan Gonzalez</h1>
-              <div className={styles.subtitleWrapper}>
-                {subtitles.map((text, i) => (
-                  <span 
-                    key={text} 
-                    className={`${styles.subtitle} ${i === subtitleIndex ? styles.subtitleActive : ''}`}
-                  >
-                    {text}
-                  </span>
-                ))}
+            {/* HUD Panel with corner brackets */}
+            <div className={styles.hudPanel}>
+              {/* All 4 HUD corner brackets as real spans for terminal-dot support */}
+              <span className={styles.hudCornerTL} aria-hidden />
+              <span className={styles.hudCornerTR} aria-hidden />
+              <span className={styles.hudCornerBL} aria-hidden />
+              <span className={styles.hudCornerBR} aria-hidden />
+
+              {/* Decorative status readout */}
+              <div className={styles.hudStatusBar}>
+                <span>LAT 34.0195°N</span>
+                <span>LON 118.4912°W</span>
+                <span>ALT 412KM</span>
+                <span>SYS ONLINE ▮</span>
+              </div>
+
+              <div className={styles.hudRail} />
+
+              <div className={styles.titleGroup}>
+                <h1 className={styles.name}>Jonathan Gonzalez</h1>
+                <div className={styles.subtitleWrapper}>
+                  {subtitles.map((text, i) => (
+                    <span
+                      key={text}
+                      className={`${styles.subtitle} ${i === subtitleIndex ? styles.subtitleActive : ''}`}
+                    >
+                      {text}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className={styles.hudRail} />
+
+              {/* Bottom status readout */}
+              <div className={styles.hudStatusBar}>
+                <span>VEC NOMINAL</span>
+                <span>SHIELDS 100%</span>
+                <span>UTC 2026-03-21</span>
               </div>
             </div>
-            
+
             <Image
               src="/astronaut_transparent.png"
               alt="Floating astronaut"
@@ -107,16 +167,17 @@ export default function Home() {
           </div>
         </section>
 
+
         {/* ── Warp transition slides ── */}
-        <WarpTransition id="warp-1" src="/meta_moon.png"        alt="Lunar surface" />
-        <WarpTransition id="warp-2" src="/universal_mars.jpeg"  alt="Mars surface" />
-        <WarpTransition id="warp-3" src="/cgcookie_pluto.jpeg"  alt="Pluto surface" />
-        <WarpTransition id="warp-4" src="/military_station.jpeg" alt="Military station" />
+        <WarpTransition id="warp-1" src="/meta_moon.png"          alt="Lunar surface"   isActive={currentIndex === 1} showPanel content={panelContents[0]} />
+        <WarpTransition id="warp-2" src="/universal_mars.jpeg"    alt="Mars surface"    isActive={currentIndex === 2} showPanel content={panelContents[1]} />
+        <WarpTransition id="warp-3" src="/cgcookie_pluto.jpeg"    alt="Pluto surface"   isActive={currentIndex === 3} showPanel content={panelContents[2]} />
+        <WarpTransition id="warp-4" src="/military_station.jpeg"  alt="Military station" isActive={currentIndex === 4} showPanel content={panelContents[3]} />
 
         {/* ── Contact slide with astronaut + LinkedIn overlay ── */}
         <WarpTransition id="warp-5" src="/contact.jpeg" alt="Contact">
           {/* Typewriter heading */}
-          <p className={styles.typewriter}>Work with me!</p>
+          <p className={styles.typewriter}>Work with me</p>
 
           {/* Floating images row */}
           <div className={styles.imagesRow}>

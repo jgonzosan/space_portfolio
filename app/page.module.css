@@ -1,9 +1,56 @@
+/* ══════════════════════════════════════════════════════════
+   HUD KEYFRAMES
+   ══════════════════════════════════════════════════════════ */
+
+@keyframes gridPulse {
+  0%, 100% { opacity: 0.04; }
+  50%       { opacity: 0.10; }
+}
+
+@keyframes bracketFlicker {
+  0%, 100% { opacity: 0.9; }
+  92%      { opacity: 0.9; }
+  93%      { opacity: 0.3; }
+  94%      { opacity: 0.9; }
+  97%      { opacity: 0.5; }
+  98%      { opacity: 0.9; }
+}
+
+@keyframes float {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-22px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes floatSlow {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-11px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes contactFadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes hudStatusBlink {
+  0%, 100% { opacity: 1; }
+  48%      { opacity: 1; }
+  50%      { opacity: 0; }
+  52%      { opacity: 1; }
+}
+
 /* ── Page wrapper — stars bg fixed so it persists through all sections ── */
 .page {
   position: relative;
   width: 100%;
   height: 100vh;
-  overflow: hidden; /* disable native scroll */
+  overflow: hidden;
   background-image: url("/background_stars.png");
   background-size: cover;
   background-position: center;
@@ -15,12 +62,13 @@
 .container {
   width: 100%;
   height: 100%;
-  /* 0.5s transition with approx 20% overshoot bounce */
-  transition: transform 0.5s cubic-bezier(0.34, 1.2, 0.3, 1);
+  transition: transform 0.5s ease-in-out;
   will-change: transform;
 }
 
-/* ── Hero ── */
+/* ══════════════════════════════════════════════════════════
+   HERO
+   ══════════════════════════════════════════════════════════ */
 .hero {
   position: relative;
   width: 100%;
@@ -32,10 +80,27 @@
   overflow: hidden;
 }
 
+/* ── Dot-grid HUD background ── */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--clr-blue) 55%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 36px 36px;
+  animation: gridPulse 4s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+
 /* ── Content stack ── */
 .content {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -43,7 +108,144 @@
   text-align: center;
 }
 
-/* ── Name and Titles ── */
+/* ══════════════════════════════════════════════════════════
+   HUD PANEL — corner brackets + rails wrapping the name
+   ══════════════════════════════════════════════════════════ */
+.hudPanel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.6rem 2.8rem;
+}
+
+/* ── All 4 corner brackets — base shared styles ── */
+.hudCornerTL,
+.hudCornerTR,
+.hudCornerBL,
+.hudCornerBR {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+}
+
+/* Square terminal dots on each open end of every bracket arm */
+.hudCornerTL::before,
+.hudCornerTL::after,
+.hudCornerTR::before,
+.hudCornerTR::after,
+.hudCornerBL::before,
+.hudCornerBL::after,
+.hudCornerBR::before,
+.hudCornerBR::after {
+  content: "";
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.60);
+}
+
+/* ── Top-left: top border + left border ── */
+.hudCornerTL {
+  top: 0;
+  left: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.60);
+  border-left: 1px solid rgba(255, 255, 255, 0.60);
+}
+/* dot at open end of top arm (right side) */
+.hudCornerTL::before { top: -1.5px; right: -1.5px; }
+/* dot at open end of left arm (bottom side) */
+.hudCornerTL::after  { bottom: -1.5px; left: -1.5px; }
+
+/* ── Top-right: top border + right border ── */
+.hudCornerTR {
+  top: 0;
+  right: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.60);
+  border-right: 1px solid rgba(255, 255, 255, 0.60);
+}
+/* dot at open end of top arm (left side) */
+.hudCornerTR::before { top: -1.5px; left: -1.5px; }
+/* dot at open end of right arm (bottom side) */
+.hudCornerTR::after  { bottom: -1.5px; right: -1.5px; }
+
+/* ── Bottom-left: bottom border + left border ── */
+.hudCornerBL {
+  bottom: 0;
+  left: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.60);
+  border-left: 1px solid rgba(255, 255, 255, 0.60);
+}
+/* dot at open end of bottom arm (right side) */
+.hudCornerBL::before { bottom: -1.5px; right: -1.5px; }
+/* dot at open end of left arm (top side) */
+.hudCornerBL::after  { top: -1.5px; left: -1.5px; }
+
+/* ── Bottom-right: bottom border + right border ── */
+.hudCornerBR {
+  bottom: 0;
+  right: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.60);
+  border-right: 1px solid rgba(255, 255, 255, 0.60);
+}
+/* dot at open end of bottom arm (left side) */
+.hudCornerBR::before { bottom: -1.5px; left: -1.5px; }
+/* dot at open end of right arm (top side) */
+.hudCornerBR::after  { top: -1.5px; right: -1.5px; }
+
+/* ── HUD rail — thin solid divider with square terminal dots ── */
+.hudRail {
+  position: relative;
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.60);
+  margin: 0.1rem 0;
+}
+/* Left terminal dot */
+.hudRail::before {
+  content: "";
+  position: absolute;
+  left: -1.5px;
+  top: -1.5px;
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.60);
+}
+/* Right terminal dot */
+.hudRail::after {
+  content: "";
+  position: absolute;
+  right: -1.5px;
+  top: -1.5px;
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.60);
+}
+
+/* ── HUD status bar — decorative readout ── */
+.hudStatusBar {
+  display: flex;
+  gap: 2rem;
+  font-family: var(--font-share-tech-mono), monospace;
+  font-size: clamp(0.5rem, 1vw, 0.68rem);
+  color: color-mix(in srgb, var(--clr-yellow) 75%, transparent);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+  padding: 0 0.4rem;
+}
+
+.hudStatusBar span:last-child {
+  color: var(--clr-orange);
+  animation: hudStatusBlink 3.5s step-start infinite;
+}
+
+/* ══════════════════════════════════════════════════════════
+   NAME & TITLE GROUP
+   ══════════════════════════════════════════════════════════ */
 .titleGroup {
   display: flex;
   flex-direction: column;
@@ -52,45 +254,46 @@
 }
 
 .name {
-  font-family: var(--font-space-mono), monospace;
+  font-family: var(--font-rajdhani), sans-serif;
   font-size: clamp(2.4rem, 6vw, 5rem);
-  font-weight: 700; /* Bold */
+  font-weight: 700;
   color: #ffffff;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
   text-shadow:
     0 0 40px rgba(255, 255, 255, 0.35),
+    0 0 80px color-mix(in srgb, var(--clr-blue) 12%, transparent),
     0 2px 8px rgba(0, 0, 0, 0.8);
   user-select: none;
   position: relative;
-  z-index: 2; /* Sits above subtitle wrapper to hide clipping if needed */
+  z-index: 2;
 }
 
 /* ── Animated Subtitle Carousel ── */
 .subtitleWrapper {
   position: relative;
-  height: clamp(1.5rem, 4vw, 3rem); /* Reserve space */
+  height: clamp(1.5rem, 4vw, 3rem);
   width: 100%;
-  overflow: hidden; /* Clips text sliding up so it doesn't touch the name */
+  overflow: hidden;
   display: flex;
   justify-content: center;
 }
 
 .subtitle {
   position: absolute;
-  /* Default inactive state: sliding away up */
-  top: -100%; 
+  top: -100%;
   opacity: 0;
-  font-family: var(--font-space-mono), monospace;
-  font-weight: 400; /* Lighter weight */
+  font-family: var(--font-share-tech-mono), monospace;
+  font-weight: 400;
   font-size: clamp(1rem, 2.5vw, 1.8rem);
-  color: #a0c8ff; /* Soft tech-blue tint */
+  color: var(--clr-blue);
   letter-spacing: 0.15em;
   text-transform: uppercase;
   white-space: nowrap;
   transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
-  /* Text shadow for legibility over stars */
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+  text-shadow:
+    0 0 12px color-mix(in srgb, var(--clr-blue) 50%, transparent),
+    0 2px 8px rgba(0, 0, 0, 0.9);
 }
 
 .subtitleActive {
@@ -98,12 +301,13 @@
   opacity: 1;
 }
 
-/* Items that haven't been reached yet stay at bottom */
 .subtitleActive ~ .subtitle {
   top: 100%;
 }
 
-/* ── Astronaut ── */
+/* ══════════════════════════════════════════════════════════
+   ASTRONAUT
+   ══════════════════════════════════════════════════════════ */
 .astronaut {
   width: clamp(180px, 28vw, 380px);
   height: auto;
@@ -111,39 +315,23 @@
   filter: drop-shadow(0 12px 32px rgba(0, 0, 0, 0.55));
 }
 
-/* ── Float keyframes ── */
-@keyframes float {
-  0%   { transform: translateY(0px); }
-  50%  { transform: translateY(-22px); }
-  100% { transform: translateY(0px); }
-}
-
-/* ── Slow float — half amplitude, for LinkedIn icon ── */
-@keyframes floatSlow {
-  0%   { transform: translateY(0px); }
-  50%  { transform: translateY(-11px); }
-  100% { transform: translateY(0px); }
-}
-
-/* ── Contact slide heading — fade in ── */
-@keyframes contactFadeIn {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
+/* ══════════════════════════════════════════════════════════
+   CONTACT SLIDE
+   ══════════════════════════════════════════════════════════ */
 .typewriter {
-  font-family: var(--font-space-mono), monospace;
+  font-family: var(--font-share-tech-mono), monospace;
   font-size: clamp(1.2rem, 3vw, 2.2rem);
   font-weight: 400;
   color: #ffffff;
   text-transform: uppercase;
   letter-spacing: 0.15em;
   white-space: nowrap;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9);
+  text-shadow:
+    0 0 18px color-mix(in srgb, var(--clr-blue) 45%, transparent),
+    0 2px 12px rgba(0, 0, 0, 0.9);
   animation: contactFadeIn 0.9s ease 0.2s both;
 }
 
-/* ── Row that holds the two floating images side-by-side ── */
 .imagesRow {
   display: flex;
   flex-direction: row;
@@ -152,7 +340,6 @@
   gap: 6rem;
 }
 
-/* ── Copyright bar — pinned to bottom of the slide ── */
 .copyrightBar {
   position: absolute;
   bottom: 1.4rem;
@@ -164,17 +351,16 @@
   justify-content: center;
   flex-wrap: wrap;
   gap: 0.4rem 0.6rem;
-  font-family: var(--font-space-mono), monospace;
+  font-family: var(--font-share-tech-mono), monospace;
   font-size: clamp(0.55rem, 1vw, 0.75rem);
-  color: rgba(255, 255, 255, 0.65);
-  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.15em;
   text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
   pointer-events: none;
   z-index: 4;
 }
 
-
-/* ── LinkedIn button on contact slide ── */
+/* ── LinkedIn button ── */
 .linkedinBtn {
   background: none;
   border: none;
@@ -189,7 +375,7 @@
 }
 
 .linkedinBtn:hover {
-  filter: drop-shadow(0 16px 40px rgba(100, 180, 255, 0.6));
+  filter: drop-shadow(0 16px 40px color-mix(in srgb, var(--clr-orange) 50%, transparent));
   transform: scale(1.06);
 }
 
@@ -198,8 +384,9 @@
   height: auto;
 }
 
-
-/* ── Content sections between transitions ── */
+/* ══════════════════════════════════════════════════════════
+   GENERIC SECTION TITLES (warp slides)
+   ══════════════════════════════════════════════════════════ */
 .contentSection {
   position: relative;
   width: 100%;
@@ -209,7 +396,6 @@
   align-items: center;
   justify-content: center;
   gap: 1.2rem;
-  /* Use a soft gradient fading out at top/bottom so there's no hard edge when sections bounce */
   background: linear-gradient(
     to bottom,
     rgba(0, 0, 0, 0) 0%,
@@ -221,9 +407,9 @@
 }
 
 .sectionTitle {
-  font-family: var(--font-montserrat), sans-serif;
+  font-family: var(--font-rajdhani), sans-serif;
   font-size: clamp(2rem, 5vw, 4rem);
-  font-weight: 900;
+  font-weight: 700;
   color: #ffffff;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -234,15 +420,10 @@
 }
 
 .sectionSub {
-  font-family: var(--font-montserrat), sans-serif;
+  font-family: var(--font-share-tech-mono), monospace;
   font-size: clamp(0.9rem, 2vw, 1.4rem);
   font-weight: 400;
-  color: rgba(200, 220, 255, 0.85);
-  letter-spacing: 0.1em;
+  color: color-mix(in srgb, var(--clr-blue) 85%, transparent);
+  letter-spacing: 0.15em;
   animation: fadeUp 1.1s 0.1s ease both;
-}
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to   { opacity: 1; transform: translateY(0); }
 }

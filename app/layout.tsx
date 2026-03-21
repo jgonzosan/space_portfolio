@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
-import { Space_Mono } from "next/font/google";
+import { Rajdhani, Share_Tech_Mono } from "next/font/google";
 import "./globals.css";
 
-const spaceMono = Space_Mono({
+const rajdhani = Rajdhani({
   subsets: ["latin"],
-  variable: "--font-space-mono",
-  weight: ["400", "700"],
+  variable: "--font-rajdhani",
+  weight: ["400", "500", "600", "700"],
+});
+
+const shareTechMono = Share_Tech_Mono({
+  subsets: ["latin"],
+  variable: "--font-share-tech-mono",
+  weight: ["400"],
 });
 
 export const metadata: Metadata = {
@@ -19,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={spaceMono.variable}>
+    <html lang="en" className={`${rajdhani.variable} ${shareTechMono.variable}`}>
       <body>{children}</body>
     </html>
   );
