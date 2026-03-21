@@ -3,7 +3,8 @@
    ══════════════════════════════════════════════════════════ */
 :root {
   --clr-white:  rgba(235, 242, 248, 0.9);   /* off-white  — primary text / chrome  */
-  --clr-blue:   rgba(30,  215, 222, 1);      /* teal-cyan  — HUD lines, grid, accents */
+  --clr-blue:   rgba(85, 175, 180, 1);      /* subtle blue-green  — HUD lines, grid, accents */
+  --clr-green:  rgba(110, 230, 120, 1);     /* bright readable green — success/dates */
   --clr-orange: rgba(255, 100,  40, 1);      /* warm orange — alerts, hover glows   */
   --clr-yellow: rgba(245, 200,  60, 1);      /* amber/gold  — data readouts          */
 }

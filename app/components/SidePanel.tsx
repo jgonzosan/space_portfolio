@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, Fragment } from "react";
 import styles from "./SidePanel.module.css";
 
 export interface PanelContent {
@@ -42,7 +42,9 @@ export default function SidePanel({ isActive, content }: Props) {
 
   const closePanel = () => {
     setContentVisible(false);
-    setPanelState("collapsed");
+    setTimeout(() => {
+      setPanelState("collapsed");
+    }, 250);
   };
 
   useEffect(() => {
@@ -74,7 +76,7 @@ export default function SidePanel({ isActive, content }: Props) {
           hasPlayedIntro.current = true;
         }, 600);
       }, 1150);
-    }, 2000);
+    }, 500);
 
     return clearAll;
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -121,31 +123,48 @@ export default function SidePanel({ isActive, content }: Props) {
         aria-hidden={!contentVisible}
       >
         {/* ── Top row: company ── */}
-        <div className={styles.topRow}>
+        <div className={`${styles.topRow} ${styles.fadeInItem}`} style={{ animationDelay: "0ms" }}>
           <h2 className={styles.companyName}>{content.company}</h2>
         </div>
 
-        {/* ── Role & Dates: full width, larger text, w/ divider ── */}
-        <div className={styles.roleBlock}>
-          <span className={styles.position}>{content.position}</span>
-          <div className={styles.dividerRole} />
-          <span className={styles.dateRange}>{content.dateRange}</span>
+        {/* ── Main horizontal dividers (thin + thick) ── */}
+        <div className={styles.fadeInItem} style={{ animationDelay: "200ms", width: "100%" }}>
+          <div className={styles.dividerThin} />
+          <div className={styles.dividerThick} />
         </div>
 
-        {/* ── Main horizontal dividers (thin + thick) ── */}
-        <div className={styles.dividerThin} />
-        <div className={styles.dividerThick} />
+        {/* ── Role & Dates: full width, larger text ── */}
+        <div className={`${styles.roleBlock} ${styles.fadeInItem}`} style={{ animationDelay: "100ms" }}>
+          <span className={styles.position}>{content.position}</span>
+          
+          <div className={styles.dateChipsWrapper}>
+            {content.dateRange.split('-').map((dateStr, idx, arr) => (
+              <Fragment key={idx}>
+                <span className={styles.dateChip}>{dateStr.trim()}</span>
+                {idx < arr.length - 1 && <span className={styles.greenDot} />}
+              </Fragment>
+            ))}
+          </div>
+        </div>
+
+        {/* ── Thin divider above description ── */}
+        <div className={`${styles.dividerThin} ${styles.fadeInItem}`} style={{ animationDelay: "450ms" }} />
 
         {/* ── Bottom Content: description stacked above skills ── */}
         <div className={styles.bottomContent}>
-          <div className={styles.descriptionWrapper}>
+          <div className={`${styles.descriptionWrapper} ${styles.fadeInItem}`} style={{ animationDelay: "600ms" }}>
             <p className={styles.description}>{content.description}</p>
-            {/* Divider at bottom of description */}
-            <div className={styles.dividerBottom80} />
+            {/* Dividers at bottom of description */}
+            <div className={styles.dividerDescGroup}>
+              <div className={styles.dividerDescThin} />
+              <div className={styles.dividerDescThinDots} />
+            </div>
           </div>
 
-          <div className={styles.skillsBlock}>
+          <div className={`${styles.skillsBlock} ${styles.fadeInItem}`} style={{ animationDelay: "300ms" }}>
+            <div className={styles.dividerDescThinDots} />
             <span className={styles.skillsHeader}>SKILLS USED</span>
+            <div className={styles.dividerDescThinDots} />
             <div className={styles.skillsList}>
               {content.skills.map((skill) => (
                 <span key={skill} className={styles.skillChip}>
@@ -153,8 +172,6 @@ export default function SidePanel({ isActive, content }: Props) {
                 </span>
               ))}
             </div>
-            {/* Divider at bottom of skills */}
-            <div className={styles.dividerBottom60} />
           </div>
         </div>
       </div>

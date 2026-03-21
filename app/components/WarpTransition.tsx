@@ -9,10 +9,11 @@ interface Props {
   children?: ReactNode;
   isActive?: boolean;
   showPanel?: boolean;
+  showGrid?: boolean;
   content?: PanelContent;
 }
 
-export default function WarpTransition({ id, src, alt = "Transition image", children, isActive = false, showPanel = false, content }: Props) {
+export default function WarpTransition({ id, src, alt = "Transition image", children, isActive = false, showPanel = false, showGrid = false, content }: Props) {
   return (
     <section id={id} className={styles.section}>
 
@@ -22,6 +23,8 @@ export default function WarpTransition({ id, src, alt = "Transition image", chil
         alt={alt}
         className={styles.lunar}
       />
+
+      {showGrid && <div className={styles.gridOverlay} />}
 
       {/* HUD side panel — shown on warp slides 1–4 */}
       {showPanel && content && <SidePanel isActive={isActive} content={content} />}

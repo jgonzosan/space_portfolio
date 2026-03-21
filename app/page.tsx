@@ -56,25 +56,25 @@ export default function Home() {
   // Placeholder content for the 4 side panels
   const panelContents = [
     {
-      company: "Tech Corp Alpha",
+      company: "Meta",
       position: "Software Engineer V",
       dateRange: "JAN 2024 - MAR 2026",
-      description: "Led development of core orbital infrastructure, reducing latency by 45%. Spearheaded the migration to modern frontend frameworks. Mentored junior engineers and established new testing protocols for mission-critical systems.",
-      skills: ["Javascript", "React", "Python", "AI"]
+      description: "Collaborated closely with Computer Vision and Machine Learning research groups to architect specialized visualization tools that powered AI-driven 3D asset generation and massive ML pipelines. Using a multifaceted stack including React, GraphQL, Hack, and Python, I built advanced 3D visual inspection platforms—leveraging BabylonJS—that empowered researchers to actively debug model outputs and huge datasets. On the infrastructure side, I developed robust backend microservices using Thrift and MySQL, integrating complex Hive analytics to completely streamline critical research workflows. To maintain high engineering velocity, I deeply integrated AI-assisted coding tools into my daily process, drastically accelerating feature deployment and automated testing across the entire stack.",
+      skills: ["React", "GraphQL", "Python", "BabylonJS", "Hack", "MySQL", "Hive", "AI"]
     },
     {
-      company: "Beta Systems Array",
-      position: "UI Developer Lead",
-      dateRange: "FEB 2022 - DEC 2023",
-      description: "Designed and implemented next-generation heads-up displays for automated rovers. Improved user metric tracking and dashboard fidelity across all planetary outposts.",
-      skills: ["Typescript", "Next.js", "WebGL", "Figma"]
+      company: "Universal Music Group",
+      position: "Full Stack Software Engineer",
+      dateRange: "OCT 2020 - MAR 2024",
+      description: "Engineered massive global digital marketing experiences for UMG's top-tier artists—including Taylor Swift, Post Malone, Lady Gaga, and Twice. Leveraging a modern TypeScript stack with Next.js and Node.js, I architected complex real-time engagement platforms integrating Spotify streams, OpenAI systems, and interactive Socket.io chats. Beyond traditional web applications, I developed immersive 3D and WebAR fan experiences using tools like BabylonJS and 8th Wall, alongside bespoke Apple Wallet download campaigns. My work was underpinned by highly resilient backend microservices managed through Prisma and PostgreSQL, and rigorously validated via comprehensive test suites to ensure flawlessly branded, high-traffic global rollouts.",
+      skills: ["Next.js", "Node.js", "TypeScript", "PostgreSQL", "Socket.io", "WebAR", "Prisma", "Tailwind CSS"]
     },
     {
-      company: "Gamma Logistics",
-      position: "Full Stack Developer",
-      dateRange: "AUG 2019 - JAN 2022",
-      description: "Built supply chain management tools handling over 10M daily transactions. Optimized database queries and refactored legacy microservices to improve overall system uptime.",
-      skills: ["Node.js", "PostgreSQL", "Docker", "AWS"]
+      company: "CGCookie",
+      position: "Technical Instructor & Developer",
+      dateRange: "SEP 2014 - SEP 2019",
+      description: "Spearheaded expansive educational initiatives by directly producing over 100 hours of professional course content covering Unity, C#, and advanced game development methodologies. Operating as a primary instructor, I mentored thousands of aspiring developers globally through interactive livestreams and dedicated community engagement. Beyond pure instruction, I actively built and published numerous WebGL, VR, and PC applications powered by highly complex interactive systems. My role consistently merged technical software development with creative execution, punctuated by the creation of over 65 highly optimized, low-poly 3D assets designed explicitly for production environments.",
+      skills: ["Unity", "C#", "WebGL", "VR", "Game Dev", "3D Assets", "Mentoring", "Livestreaming"]
     },
     {
       company: "Delta Defense",
@@ -169,10 +169,10 @@ export default function Home() {
 
 
         {/* ── Warp transition slides ── */}
-        <WarpTransition id="warp-1" src="/meta_moon.png"          alt="Lunar surface"   isActive={currentIndex === 1} showPanel content={panelContents[0]} />
-        <WarpTransition id="warp-2" src="/universal_mars.jpeg"    alt="Mars surface"    isActive={currentIndex === 2} showPanel content={panelContents[1]} />
-        <WarpTransition id="warp-3" src="/cgcookie_pluto.jpeg"    alt="Pluto surface"   isActive={currentIndex === 3} showPanel content={panelContents[2]} />
-        <WarpTransition id="warp-4" src="/military_station.jpeg"  alt="Military station" isActive={currentIndex === 4} showPanel content={panelContents[3]} />
+        <WarpTransition id="warp-1" src="/meta_moon.png"          alt="Lunar surface"   isActive={currentIndex === 1} showPanel showGrid content={panelContents[0]} />
+        <WarpTransition id="warp-2" src="/universal_mars.jpeg"    alt="Mars surface"    isActive={currentIndex === 2} showPanel showGrid content={panelContents[1]} />
+        <WarpTransition id="warp-3" src="/cgcookie_pluto.jpeg"    alt="Pluto surface"   isActive={currentIndex === 3} showPanel showGrid content={panelContents[2]} />
+        <WarpTransition id="warp-4" src="/military_station.jpeg"  alt="Military station" isActive={currentIndex === 4} showPanel showGrid content={panelContents[3]} />
 
         {/* ── Contact slide with astronaut + LinkedIn overlay ── */}
         <WarpTransition id="warp-5" src="/contact.jpeg" alt="Contact">

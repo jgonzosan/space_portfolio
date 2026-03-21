@@ -37,6 +37,19 @@
   pointer-events: none;
 }
 
+.gridOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background-image: 
+    radial-gradient(circle at center, rgba(255, 255, 255, 0.22) 1.5px, transparent 2px),
+    linear-gradient(to right, transparent calc(50% - 0.5px), rgba(255, 255, 255, 0.05) calc(50% - 0.5px), rgba(255, 255, 255, 0.05) calc(50% + 0.5px), transparent calc(50% + 0.5px)),
+    linear-gradient(to bottom, transparent calc(50% - 0.5px), rgba(255, 255, 255, 0.05) calc(50% - 0.5px), rgba(255, 255, 255, 0.05) calc(50% + 0.5px), transparent calc(50% + 0.5px));
+  background-size: 160px 160px;
+}
+
+
 
 /* ── Overlay container centred above the background image ── */
 .overlay {
