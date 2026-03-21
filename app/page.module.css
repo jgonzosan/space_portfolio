@@ -118,6 +118,87 @@
   100% { transform: translateY(0px); }
 }
 
+/* ── Slow float — half amplitude, for LinkedIn icon ── */
+@keyframes floatSlow {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-11px); }
+  100% { transform: translateY(0px); }
+}
+
+/* ── Contact slide heading — fade in ── */
+@keyframes contactFadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.typewriter {
+  font-family: var(--font-space-mono), monospace;
+  font-size: clamp(1.2rem, 3vw, 2.2rem);
+  font-weight: 400;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  white-space: nowrap;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9);
+  animation: contactFadeIn 0.9s ease 0.2s both;
+}
+
+/* ── Row that holds the two floating images side-by-side ── */
+.imagesRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 6rem;
+}
+
+/* ── Copyright bar — pinned to bottom of the slide ── */
+.copyrightBar {
+  position: absolute;
+  bottom: 1.4rem;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.6rem;
+  font-family: var(--font-space-mono), monospace;
+  font-size: clamp(0.55rem, 1vw, 0.75rem);
+  color: rgba(255, 255, 255, 0.65);
+  letter-spacing: 0.05em;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
+  pointer-events: none;
+  z-index: 4;
+}
+
+
+/* ── LinkedIn button on contact slide ── */
+.linkedinBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: floatSlow 5s ease-in-out infinite;
+  filter: drop-shadow(0 12px 32px rgba(0, 0, 0, 0.55));
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.linkedinBtn:hover {
+  filter: drop-shadow(0 16px 40px rgba(100, 180, 255, 0.6));
+  transform: scale(1.06);
+}
+
+.linkedinImg {
+  width: clamp(140px, 22vw, 300px);
+  height: auto;
+}
+
+
 /* ── Content sections between transitions ── */
 .contentSection {
   position: relative;

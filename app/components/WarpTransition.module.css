@@ -3,6 +3,7 @@
   width: 100%;
   height: 100vh;
   overflow: hidden;
+  z-index: 1;
 }
 
 /* Lunar surface sits at the bottom of the section */
@@ -11,9 +12,39 @@
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 100%;
+  width: 100vw;
+  min-height: 40vh;
+  object-fit: cover;
+  object-position: top;
   z-index: 2;
   pointer-events: none;
-  /* Let the transparent PNG composite naturally */
   mix-blend-mode: normal;
 }
+
+/* ── Overlay container centred above the background image ── */
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  pointer-events: none;
+}
+
+/* Allow interactive children to receive clicks */
+.overlay > * {
+  pointer-events: auto;
+}
+
+/* ── Row that holds the two floating images side-by-side ── */
+.imagesRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 6rem;
+}
+

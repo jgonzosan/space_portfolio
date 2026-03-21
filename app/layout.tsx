@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Montserrat } from "next/font/google";
+import { Space_Mono } from "next/font/google";
 import "./globals.css";
 
-const montserrat = Montserrat({
+const spaceMono = Space_Mono({
   subsets: ["latin"],
-  variable: "--font-montserrat",
-  weight: ["400", "700", "900"],
+  variable: "--font-space-mono",
+  weight: ["400", "700"],
 });
 
 export const metadata: Metadata = {
@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={montserrat.variable}>
+    <html lang="en" className={spaceMono.variable}>
       <body>{children}</body>
     </html>
   );

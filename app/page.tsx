@@ -5,25 +5,10 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import WarpTransition from "./components/WarpTransition";
 
-function ContentSection({ index }: { index: number }) {
-  const labels = [
-    { title: "About Me", sub: "Explorer of code & cosmos" },
-    { title: "Projects",  sub: "Things I've built" },
-    { title: "Experience", sub: "My journey so far" },
-    { title: "Contact",  sub: "Let's connect" },
-  ];
-  const { title, sub } = labels[index] ?? { title: `Section ${index + 1}`, sub: "" };
-  return (
-    <section className={styles.contentSection}>
-      <h2 className={styles.sectionTitle}>{title}</h2>
-      <p className={styles.sectionSub}>{sub}</p>
-    </section>
-  );
-}
 
 export default function Home() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const totalSections = 1 + 4 * 2; // 1 hero + 4 (transition + content) = 9
+  const totalSections = 6; // 1 hero + 5 transition slides
   const isTransitioning = useRef(false);
   const touchStartY = useRef(0);
 
@@ -59,6 +44,22 @@ export default function Home() {
     navigate(diff > 0 ? 1 : -1);
   };
 
+  // Subtitle cycler logic
+  const [subtitleIndex, setSubtitleIndex] = useState(0);
+  const subtitles = [
+    "Software Engineer",
+    "Game Developer",
+    "Creative Technologist",
+    "Veteran"
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSubtitleIndex((prev) => (prev + 1) % subtitles.length);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, [subtitles.length]);
+
   // Prevent native scroll on mount
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -81,7 +82,20 @@ export default function Home() {
         {/* ── Hero ── */}
         <section className={styles.hero}>
           <div className={styles.content}>
-            <h1 className={styles.name}>Jonathan Gonzalez</h1>
+            <div className={styles.titleGroup}>
+              <h1 className={styles.name}>Jonathan Gonzalez</h1>
+              <div className={styles.subtitleWrapper}>
+                {subtitles.map((text, i) => (
+                  <span 
+                    key={text} 
+                    className={`${styles.subtitle} ${i === subtitleIndex ? styles.subtitleActive : ''}`}
+                  >
+                    {text}
+                  </span>
+                ))}
+              </div>
+            </div>
+            
             <Image
               src="/astronaut_transparent.png"
               alt="Floating astronaut"
@@ -93,13 +107,50 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── 4 Warp transitions, each followed by a content section ── */}
-        {[0, 1, 2, 3].map((i) => (
-          <div key={i} className={styles.sectionGroup}>
-            <WarpTransition id={`warp-${i + 1}`} />
-            <ContentSection index={i} />
+        {/* ── Warp transition slides ── */}
+        <WarpTransition id="warp-1" src="/meta_moon.png"        alt="Lunar surface" />
+        <WarpTransition id="warp-2" src="/universal_mars.jpeg"  alt="Mars surface" />
+        <WarpTransition id="warp-3" src="/cgcookie_pluto.jpeg"  alt="Pluto surface" />
+        <WarpTransition id="warp-4" src="/military_station.jpeg" alt="Military station" />
+
+        {/* ── Contact slide with astronaut + LinkedIn overlay ── */}
+        <WarpTransition id="warp-5" src="/contact.jpeg" alt="Contact">
+          {/* Typewriter heading */}
+          <p className={styles.typewriter}>Work with me!</p>
+
+          {/* Floating images row */}
+          <div className={styles.imagesRow}>
+            {/* Floating astronaut */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/astronaut_transparent.png"
+              alt="Floating astronaut"
+              className={styles.astronaut}
+            />
+
+            {/* LinkedIn button */}
+            <button
+              className={styles.linkedinBtn}
+              onClick={() => window.open("https://www.linkedin.com/in/jonathangonzalez01/", "_blank")}
+              aria-label="Visit LinkedIn profile"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/linkedin_transparent.png"
+                alt="LinkedIn"
+                className={styles.linkedinImg}
+              />
+            </button>
           </div>
-        ))}
+
+          {/* Copyright footer */}
+          <footer className={styles.copyrightBar}>
+            © 2026 Jonathan Gonzalez &mdash; Made with love with Nano Banana Pro, Antigravity, and Claude
+          </footer>
+        </WarpTransition>
+
+
+
       </div>
     </div>
   );
