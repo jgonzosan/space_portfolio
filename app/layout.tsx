@@ -17,6 +17,9 @@ const shareTechMono = Share_Tech_Mono({
 export const metadata: Metadata = {
   title: "Jonathan Gonzalez | Portfolio",
   description: "Personal portfolio of Jonathan Gonzalez.",
+  icons: {
+    icon: "/moon-favicon.png",
+  },
 };
 
 export default function RootLayout({
