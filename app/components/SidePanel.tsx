@@ -194,10 +194,10 @@ export default function SidePanel({ isActive, content }: Props) {
                   {skill}
                 </span>
               ))}
-              {/* Bottom Decorative Corners */}
-              <div className={styles.skillsCornerBL} />
-              <div className={styles.skillsCornerBR} />
             </div>
+            {/* Bottom Decorative Corners */}
+            <div className={styles.skillsCornerBL} />
+            <div className={styles.skillsCornerBR} />
           </div>
         </div>
       </div>

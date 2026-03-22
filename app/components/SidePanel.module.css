@@ -19,8 +19,8 @@
   transform: translateX(calc(-100% - 1rem)) translateY(-50%);
   transition: transform 0.55s ease-in-out, width 0.45s ease-in-out;
   pointer-events: none;
-  border-right: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 2px;
+  border: none;
+  border-radius: 0;
 }
 
 /* ── Open state: full 1/3 width, on-screen ── */
@@ -407,8 +407,11 @@
   min-width: 140px; /* Sensible minimum to prevent squishing */
   position: relative;
   max-height: 100%;
-  padding: 0.25rem;
+  padding: 0; /* Removed for flush background */
   overflow: hidden;
+  border-bottom: 1.5px solid rgba(255, 255, 255, 0.3); /* Stabilized divider */
+  background-color: rgba(17, 17, 17, 0.75); /* Fixed background */
+  align-self: flex-start; /* Desktop: dynamic height */
 }
 
 /* Old borders and corners removed */
@@ -439,14 +442,11 @@
   gap: 0.5rem;
   align-items: stretch;
   /* Full width */
-  padding: 0.5rem 0 1rem; /* Added 1rem spacing at bottom */
+  padding: 0.5rem 0.75rem 1rem; /* Added horizontal padding */
   margin-top: 0.5rem;
-  margin-bottom: 1.5rem; /* Spacing below the container */
+  margin-bottom: 0; /* Removed margin so it sits on the border */
   overflow: visible; /* Grow to fit content, no scrollbar */
-  background-color: rgba(17, 17, 17, 0.75); /* 75% opacity dark gray */
   border-radius: 0;
-  border-bottom: 1.5px solid rgba(255, 255, 255, 0.3); /* 50% thicker bottom line */
-  position: relative; /* For corner positioning */
 }
 
 .skillsCornerBL,
@@ -458,17 +458,19 @@
 }
 
 .skillsCornerBL {
-  bottom: -1.5px; /* Align with bottom border line */
+  bottom: -1.5px;
   left: 0;
   border-bottom: 3px solid rgba(255, 255, 255, 0.6);
   border-left: 3px solid rgba(255, 255, 255, 0.6);
+  z-index: 2;
 }
 
 .skillsCornerBR {
-  bottom: -1.5px; /* Align with bottom border line */
+  bottom: -1.5px;
   right: 0;
   border-bottom: 3px solid rgba(255, 255, 255, 0.6);
   border-right: 3px solid rgba(255, 255, 255, 0.6);
+  z-index: 2;
 }
 
 /* HUD-style chip */
@@ -503,36 +505,96 @@
 /* ═══════════════════════════════════════════════════
    MOBILE RESPONSIVENESS
    ═══════════════════════════════════════════════════ */
-@media (max-width: 768px) {
+@media (max-width: 1100px) {
   .panel {
-    top: 0;
-    left: 0;
-    width: 90vw !important;
-    height: 100dvh !important;
-    max-height: none;
-    transform: translateX(-100%) translateY(0);
-    border-radius: 0;
-    border-right: none;
+    top: 50% !important;
+    left: 2.5vw !important; /* anchor to the 2.5% centered spot */
+    width: 44px !important; /* Start as sliver during intro to avoid flash */
+    height: 95vh !important;
+    max-height: 95vh !important;
+    min-height: auto !important;
+    /* Initialize exactly at the anchor to avoid unwanted slide on first reveal */
+    transform: translateX(0) translateY(-50%) !important;
+    border-radius: 0 !important;
+    border: none !important;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.9);
     padding-top: env(safe-area-inset-top);
-    /* useful for iPhones */
+    transition: transform 0.55s ease-in-out, width 0.45s ease-in-out, opacity 0.3s;
+    opacity: 0;
+  }
+
+  .body {
+    padding: 0.75rem 1rem 1rem !important; /* more compact */
+    gap: 0.25rem !important;
   }
 
   .panelOpen {
-    transform: translateX(0) translateY(0);
+    transform: translateX(0) translateY(-50%) !important; /* Already aligned with left: 2.5vw */
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    width: 95vw !important;
   }
 
   .panelCollapsed {
-    transform: translateX(0) translateY(0);
+    left: 2.5vw !important;
+    top: 50% !important;
+    transform: translateX(0) translateY(-50%) !important;
     width: 44px !important;
+    height: 95vh !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+
+
+  .companyName {
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem) !important;
+  }
+
+  .position {
+    font-size: clamp(0.75rem, 1.2vw, 0.9rem) !important;
+  }
+
+  .dateChip {
+    padding: 0.2rem 0.4rem !important;
+    font-size: 0.6rem !important;
   }
 
   .bottomContent {
-    flex-direction: column;
-    gap: 1.5rem;
-    overflow-y: auto;
+    flex-direction: row !important; /* side-by-side even on mobile to save height */
+    gap: 1rem !important;
+    overflow: hidden;
+  }
+
+  .description {
+    font-size: clamp(12px, 2.5vh, 14px) !important;
+    line-height: 1.5 !important;
   }
 
   .skillsBlock {
-    margin-bottom: 2rem;
+    min-width: 100px !important;
+    margin-bottom: 0 !important;
+    overflow: hidden;
+    height: 100% !important; /* Force full height */
+    display: flex;
+    flex-direction: column;
+    align-self: stretch !important; /* Mobile: full height */
+  }
+
+  .skillsList {
+    flex: 1 !important; /* Fill the block */
+    overflow-y: auto !important; /* Enable scrolling */
+    padding-bottom: 2rem !important; /* Extra space at bottom of list */
+    min-height: 0;
+  }
+
+  .skillsHeader {
+    font-size: 0.65rem !important;
+    padding: 0.2rem 0.4rem !important;
+  }
+
+  .skillChip {
+    padding: 0.25rem 0.4rem !important;
+    font-size: 0.6rem !important;
   }
 }
