@@ -188,16 +188,21 @@ export default function SidePanel({ isActive, content }: Props) {
 
           <div className={`${styles.skillsBlock} ${styles.fadeInItem}`} style={{ animationDelay: "300ms" }}>
             <span className={styles.skillsHeader}>SKILLS USED</span>
-            <div className={styles.skillsList}>
-              {content.skills.map((skill) => (
-                <span key={skill} className={styles.skillChip}>
-                  {skill}
-                </span>
-              ))}
+            <div className={styles.skillsScrollFrame}>
+              {/* Top Decorative Corners */}
+              <div className={styles.skillsCornerTL} />
+              <div className={styles.skillsCornerTR} />
+              <div className={styles.skillsList}>
+                {content.skills.map((skill) => (
+                  <span key={skill} className={styles.skillChip}>
+                    {skill}
+                  </span>
+                ))}
+              </div>
+              {/* Bottom Decorative Corners */}
+              <div className={styles.skillsCornerBL} />
+              <div className={styles.skillsCornerBR} />
             </div>
-            {/* Bottom Decorative Corners */}
-            <div className={styles.skillsCornerBL} />
-            <div className={styles.skillsCornerBR} />
           </div>
         </div>
       </div>

@@ -407,11 +407,21 @@
   min-width: 140px; /* Sensible minimum to prevent squishing */
   position: relative;
   max-height: 100%;
-  padding: 0; /* Removed for flush background */
+  padding: 0;
   overflow: hidden;
-  border-bottom: 1.5px solid rgba(255, 255, 255, 0.3); /* Stabilized divider */
-  background-color: rgba(17, 17, 17, 0.75); /* Fixed background */
   align-self: flex-start; /* Desktop: dynamic height */
+}
+
+.skillsScrollFrame {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.3);
+  border-bottom: 1.5px solid rgba(255, 255, 255, 0.3);
+  background-color: rgba(17, 17, 17, 0.75);
+  overflow: hidden;
+  margin-top: 0.5rem;
 }
 
 /* Old borders and corners removed */
@@ -442,23 +452,38 @@
   gap: 0.5rem;
   align-items: stretch;
   /* Full width */
-  padding: 0.5rem 0.75rem 1rem; /* Added horizontal padding */
-  margin-top: 0.5rem;
-  margin-bottom: 0; /* Removed margin so it sits on the border */
+  padding: 0.75rem 0.75rem 1rem; /* Added horizontal padding */
   overflow: visible; /* Grow to fit content, no scrollbar */
   border-radius: 0;
 }
 
+.skillsCornerTL,
+.skillsCornerTR,
 .skillsCornerBL,
 .skillsCornerBR {
   position: absolute;
   width: 8px;
   height: 8px;
   pointer-events: none;
+  z-index: 2;
+}
+
+.skillsCornerTL {
+  top: 0;
+  left: 0;
+  border-top: 3px solid rgba(255, 255, 255, 0.6);
+  border-left: 3px solid rgba(255, 255, 255, 0.6);
+}
+
+.skillsCornerTR {
+  top: 0;
+  right: 0;
+  border-top: 3px solid rgba(255, 255, 255, 0.6);
+  border-right: 3px solid rgba(255, 255, 255, 0.6);
 }
 
 .skillsCornerBL {
-  bottom: -1.5px;
+  bottom: 0;
   left: 0;
   border-bottom: 3px solid rgba(255, 255, 255, 0.6);
   border-left: 3px solid rgba(255, 255, 255, 0.6);
@@ -466,7 +491,7 @@
 }
 
 .skillsCornerBR {
-  bottom: -1.5px;
+  bottom: 0;
   right: 0;
   border-bottom: 3px solid rgba(255, 255, 255, 0.6);
   border-right: 3px solid rgba(255, 255, 255, 0.6);
@@ -579,6 +604,14 @@
     display: flex;
     flex-direction: column;
     align-self: stretch !important; /* Mobile: full height */
+  }
+
+  .skillsScrollFrame {
+    flex: 1 !important;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0;
   }
 
   .skillsList {
