@@ -8,6 +8,16 @@ import WarpTransition from "./components/WarpTransition";
 
 export default function Home() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [utcDate, setUtcDate] = useState("");
+
+  // Update UTC date on mount
+  useEffect(() => {
+    const now = new Date();
+    const yyyy = now.getUTCFullYear();
+    const mm = String(now.getUTCMonth() + 1).padStart(2, '0');
+    const dd = String(now.getUTCDate()).padStart(2, '0');
+    setUtcDate(`${yyyy}-${mm}-${dd}`);
+  }, []);
   const totalSections = 6; // 1 hero + 5 transition slides
   const isTransitioning = useRef(false);
   const touchStartY = useRef(0);
@@ -59,29 +69,38 @@ export default function Home() {
       company: "Meta",
       position: "Software Engineer V",
       dateRange: "JAN 2024 - MAR 2026",
-      description: "Collaborated closely with Computer Vision and Machine Learning research groups to architect specialized visualization tools that powered AI-driven 3D asset generation and massive ML pipelines. Using a multifaceted stack including React, GraphQL, Hack, and Python, I built advanced 3D visual inspection platforms—leveraging BabylonJS—that empowered researchers to actively debug model outputs and huge datasets. On the infrastructure side, I developed robust backend microservices using Thrift and MySQL, integrating complex Hive analytics to completely streamline critical research workflows. To maintain high engineering velocity, I deeply integrated AI-assisted coding tools into my daily process, drastically accelerating feature deployment and automated testing across the entire stack.",
-      skills: ["React", "GraphQL", "Python", "BabylonJS", "Hack", "MySQL", "Hive", "AI"]
+      description: "Collaborated closely with Computer Vision and Machine Learning research groups to architect specialized visualization tools that powered AI-driven 3D asset generation and massive ML pipelines. Using a multifaceted stack including React, GraphQL, Hack, and Python, I built advanced 3D visual inspection platforms—leveraging BabylonJS—that empowered researchers to actively debug model outputs and huge datasets.\n\nOn the infrastructure side, I developed robust backend microservices using Thrift and MySQL, integrating complex Hive analytics to completely streamline critical research workflows.\n\nTo maintain high engineering velocity, I deeply integrated AI-assisted coding tools into my daily process, drastically accelerating feature deployment and automated testing across the entire stack.",
+      skills: ["React", "GraphQL", "Python", "BabylonJS", "Hack", "MySQL", "Hive", "AI"],
+      link: "https://www.meta.com",
+      linkText: "meta.com"
     },
     {
       company: "Universal Music Group",
       position: "Full Stack Software Engineer",
       dateRange: "OCT 2020 - MAR 2024",
-      description: "Engineered massive global digital marketing experiences for UMG's top-tier artists—including Taylor Swift, Post Malone, Lady Gaga, and Twice. Leveraging a modern TypeScript stack with Next.js and Node.js, I architected complex real-time engagement platforms integrating Spotify streams, OpenAI systems, and interactive Socket.io chats. Beyond traditional web applications, I developed immersive 3D and WebAR fan experiences using tools like BabylonJS and 8th Wall, alongside bespoke Apple Wallet download campaigns. My work was underpinned by highly resilient backend microservices managed through Prisma and PostgreSQL, and rigorously validated via comprehensive test suites to ensure flawlessly branded, high-traffic global rollouts.",
-      skills: ["Next.js", "Node.js", "TypeScript", "PostgreSQL", "Socket.io", "WebAR", "Prisma", "Tailwind CSS"]
+      description: "Engineered massive global digital marketing experiences for UMG's top-tier artists—including Taylor Swift, Post Malone, Lady Gaga, and Twice. Leveraging a modern TypeScript stack with Next.js and Node.js, I architected complex real-time engagement platforms integrating Spotify streams, OpenAI systems, and interactive Socket.io chats.\n\nBeyond traditional web applications, I developed immersive 3D and WebAR fan experiences using tools like BabylonJS and 8th Wall, alongside bespoke Apple Wallet download campaigns.\n\nMy work was underpinned by highly resilient backend microservices managed through Prisma and PostgreSQL, and rigorously validated via comprehensive test suites to ensure flawlessly branded, high-traffic global rollouts.",
+      skills: ["Next.js", "Node.js", "TypeScript", "PostgreSQL", "Socket.io", "WebAR", "Prisma", "Tailwind CSS"],
+      link: "https://www.universalmusic.com",
+      linkText: "universalmusic.com"
     },
     {
       company: "CGCookie",
-      position: "Technical Instructor & Developer",
+      position: "Lead Game Development Instructor",
       dateRange: "SEP 2014 - SEP 2019",
-      description: "Spearheaded expansive educational initiatives by directly producing over 100 hours of professional course content covering Unity, C#, and advanced game development methodologies. Operating as a primary instructor, I mentored thousands of aspiring developers globally through interactive livestreams and dedicated community engagement. Beyond pure instruction, I actively built and published numerous WebGL, VR, and PC applications powered by highly complex interactive systems. My role consistently merged technical software development with creative execution, punctuated by the creation of over 65 highly optimized, low-poly 3D assets designed explicitly for production environments.",
-      skills: ["Unity", "C#", "WebGL", "VR", "Game Dev", "3D Assets", "Mentoring", "Livestreaming"]
+      description: "Spearheaded expansive educational initiatives by directly producing over 100 hours of professional course content covering Unity, C#, and advanced game development methodologies. Operating as a primary instructor, I mentored thousands of aspiring developers globally through interactive livestreams and dedicated community engagement.\n\nBeyond pure instruction, I actively built and published numerous WebGL, VR, and PC applications powered by highly complex interactive systems. My role consistently merged technical software development with creative execution, punctuated by the creation of over 65 highly optimized, low-poly 3D assets designed explicitly for production environments.",
+      skills: ["Unity", "C#", "WebGL", "VR", "Game Dev", "3D Assets", "Mentoring", "Livestreaming"],
+      link: "https://cgcookie.com",
+      linkText: "cgcookie.com"
     },
     {
-      company: "Delta Defense",
-      position: "Systems Technician",
-      dateRange: "MAY 2015 - JUL 2019",
-      description: "Maintained secure communication relays and performed cryptographic audits. Ensured 99.999% uptime for outer-rim defense networks.",
-      skills: ["Linux", "Bash", "Security", "Networking"]
+      company: "US Air Force",
+      position: "Staff Sergeant",
+      dateRange: "AUG 2005 - OCT 2013",
+      description: "Across an 8-year tenure, I served in three highly technical roles.\n\nAs a Visual Imagery and Intrusion Detection Systems Technician (2E154), including a remote tour at Osan AB, South Korea, I installed and maintained complex security frameworks such as fiber optics, CCTV, and infrared sensors in classified areas.\n\nAs an HH-60 Flight Engineer (1A131), I completed rigorous SERE training, logged 80 flight hours, and executed tactical rescue missions utilizing hoist and fast-rope deployments, alongside Dillon Aero Minigun operations.\n\nFinally, as a Network Infrastructure Supervisor (3D152), I directed a 15-Airmen team, resolved over 1,000 technical tickets for a 5,000+ member base, and deployed to Ali Al Salem AB, Kuwait, serving as a Systems Administrator for over 500 personnel.",
+      skills: ["Security Systems", "Fiber Optics", "Networking", "System Admin", "Leadership", "Aviation", "Tactical Rescue"],
+      skillWidth: "150px",
+      link: "https://www.airforce.com",
+      linkText: "airforce.com"
     }
   ];
 
@@ -116,11 +135,13 @@ export default function Home() {
           <div className={styles.content}>
             {/* HUD Panel with corner brackets */}
             <div className={styles.hudPanel}>
-              {/* All 4 HUD corner brackets as real spans for terminal-dot support */}
-              <span className={styles.hudCornerTL} aria-hidden />
-              <span className={styles.hudCornerTR} aria-hidden />
-              <span className={styles.hudCornerBL} aria-hidden />
-              <span className={styles.hudCornerBR} aria-hidden />
+              {/* Animated corner group wrapper */}
+              <div className={styles.hudCornerGroup}>
+                <span className={styles.hudCornerTL} aria-hidden />
+                <span className={styles.hudCornerTR} aria-hidden />
+                <span className={styles.hudCornerBL} aria-hidden />
+                <span className={styles.hudCornerBR} aria-hidden />
+              </div>
 
               {/* Decorative status readout */}
               <div className={styles.hudStatusBar}>
@@ -152,12 +173,12 @@ export default function Home() {
               <div className={styles.hudStatusBar}>
                 <span>VEC NOMINAL</span>
                 <span>SHIELDS 100%</span>
-                <span>UTC 2026-03-21</span>
+                <span>UTC {utcDate || "2026-03-21"}</span>
               </div>
             </div>
 
             <Image
-              src="/astronaut_transparent.png"
+              src="/icons/astronaut_transparent.png"
               alt="Floating astronaut"
               width={380}
               height={380}
@@ -169,13 +190,13 @@ export default function Home() {
 
 
         {/* ── Warp transition slides ── */}
-        <WarpTransition id="warp-1" src="/meta_moon.png"          alt="Lunar surface"   isActive={currentIndex === 1} showPanel showGrid content={panelContents[0]} />
-        <WarpTransition id="warp-2" src="/universal_mars.jpeg"    alt="Mars surface"    isActive={currentIndex === 2} showPanel showGrid content={panelContents[1]} />
-        <WarpTransition id="warp-3" src="/cgcookie_pluto.jpeg"    alt="Pluto surface"   isActive={currentIndex === 3} showPanel showGrid content={panelContents[2]} />
-        <WarpTransition id="warp-4" src="/military_station.jpeg"  alt="Military station" isActive={currentIndex === 4} showPanel showGrid content={panelContents[3]} />
+        <WarpTransition id="warp-1" src="/background_images/meta_moon.png" alt="Lunar surface" isActive={currentIndex === 1} showPanel showGrid content={panelContents[0]} />
+        <WarpTransition id="warp-2" src="/background_images/universal_mars.jpeg" alt="Mars surface" isActive={currentIndex === 2} showPanel showGrid content={panelContents[1]} />
+        <WarpTransition id="warp-3" src="/background_images/cgcookie_pluto.jpeg" alt="Pluto surface" isActive={currentIndex === 3} showPanel showGrid content={panelContents[2]} />
+        <WarpTransition id="warp-4" src="/background_images/military_station.jpeg" alt="Military station" isActive={currentIndex === 4} showPanel showGrid content={panelContents[3]} />
 
         {/* ── Contact slide with astronaut + LinkedIn overlay ── */}
-        <WarpTransition id="warp-5" src="/contact.jpeg" alt="Contact">
+        <WarpTransition id="warp-5" src="/background_images/contact.jpeg" alt="Contact">
           {/* Typewriter heading */}
           <p className={styles.typewriter}>Work with me</p>
 
@@ -184,7 +205,7 @@ export default function Home() {
             {/* Floating astronaut */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/astronaut_transparent.png"
+              src="/icons/astronaut_transparent.png"
               alt="Floating astronaut"
               className={styles.astronaut}
             />
@@ -197,7 +218,7 @@ export default function Home() {
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/linkedin_transparent.png"
+                src="/icons/linkedin_transparent.png"
                 alt="LinkedIn"
                 className={styles.linkedinImg}
               />

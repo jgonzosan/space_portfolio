@@ -9,6 +9,10 @@ export interface PanelContent {
   dateRange: string;
   description: string;
   skills: string[];
+  panelWidth?: string;
+  skillWidth?: string;
+  link?: string;
+  linkText?: string;
 }
 
 interface Props {
@@ -101,6 +105,10 @@ export default function SidePanel({ isActive, content }: Props) {
         isPopping                  ? styles.panelPopping   : "",
       ].join(" ")}
       aria-hidden={panelState === "hidden"}
+      style={{
+        '--panel-width': content.panelWidth || '50vw',
+        '--skill-width': content.skillWidth || '120px'
+      } as React.CSSProperties}
     >
       {/* ── Toggle button ── */}
       <button
@@ -127,6 +135,20 @@ export default function SidePanel({ isActive, content }: Props) {
           <h2 className={styles.companyName}>{content.company}</h2>
         </div>
 
+        {content.link && (
+          <div className={`${styles.linkRow} ${styles.fadeInItem}`} style={{ animationDelay: "50ms" }}>
+            <span className={styles.linkIconBtn}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+              </svg>
+            </span>
+            <a href={content.link} target="_blank" rel="noopener noreferrer" className={styles.linkText}>
+              {content.linkText || "Visit Website"}
+            </a>
+          </div>
+        )}
+
         {/* ── Main horizontal dividers (thin + thick) ── */}
         <div className={styles.fadeInItem} style={{ animationDelay: "200ms", width: "100%" }}>
           <div className={styles.dividerThin} />
@@ -136,7 +158,6 @@ export default function SidePanel({ isActive, content }: Props) {
         {/* ── Role & Dates: full width, larger text ── */}
         <div className={`${styles.roleBlock} ${styles.fadeInItem}`} style={{ animationDelay: "100ms" }}>
           <span className={styles.position}>{content.position}</span>
-          
           <div className={styles.dateChipsWrapper}>
             {content.dateRange.split('-').map((dateStr, idx, arr) => (
               <Fragment key={idx}>
@@ -153,8 +174,12 @@ export default function SidePanel({ isActive, content }: Props) {
         {/* ── Bottom Content: description stacked above skills ── */}
         <div className={styles.bottomContent}>
           <div className={`${styles.descriptionWrapper} ${styles.fadeInItem}`} style={{ animationDelay: "600ms" }}>
-            <p className={styles.description}>{content.description}</p>
-            {/* Dividers at bottom of description */}
+            <div className={styles.descriptionScroll}>
+              {content.description.split('\n\n').map((para, i) => (
+                <p key={i} className={styles.description}>{para}</p>
+              ))}
+            </div>
+            {/* Dividers are now OUTSIDE the scroll area, fixed at the bottom of the wrapper */}
             <div className={styles.dividerDescGroup}>
               <div className={styles.dividerDescThin} />
               <div className={styles.dividerDescThinDots} />
@@ -162,15 +187,16 @@ export default function SidePanel({ isActive, content }: Props) {
           </div>
 
           <div className={`${styles.skillsBlock} ${styles.fadeInItem}`} style={{ animationDelay: "300ms" }}>
-            <div className={styles.dividerDescThinDots} />
             <span className={styles.skillsHeader}>SKILLS USED</span>
-            <div className={styles.dividerDescThinDots} />
             <div className={styles.skillsList}>
               {content.skills.map((skill) => (
                 <span key={skill} className={styles.skillChip}>
                   {skill}
                 </span>
               ))}
+              {/* Bottom Decorative Corners */}
+              <div className={styles.skillsCornerBL} />
+              <div className={styles.skillsCornerBR} />
             </div>
           </div>
         </div>

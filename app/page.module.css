@@ -45,17 +45,63 @@
   52%      { opacity: 1; }
 }
 
+@keyframes hudStatusPop {
+  0% { opacity: 0; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.05); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes namePop {
+  0% { opacity: 0; transform: translateY(10px); filter: blur(4px); }
+  100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+/* Bracket Intro: Pop in at center as a square, then expand */
+@keyframes bracketTL_Intro {
+  0% { opacity: 0; top: 50%; left: 50%; transform: translate(-100%, -100%) scale(0.5); }
+  4% { opacity: 1; top: 50%; left: 50%; transform: translate(-100%, -100%) scale(0.6); }
+  48% { opacity: 1; top: 50%; left: 50%; transform: translate(-100%, -100%) scale(0.6); }
+  100% { opacity: 1; top: 0; left: 0; transform: translate(0, 0) scale(1); }
+}
+
+@keyframes bracketTR_Intro {
+  0% { opacity: 0; top: 50%; right: 50%; transform: translate(100%, -100%) scale(0.5); }
+  4% { opacity: 1; top: 50%; right: 50%; transform: translate(100%, -100%) scale(0.6); }
+  48% { opacity: 1; top: 50%; right: 50%; transform: translate(100%, -100%) scale(0.6); }
+  100% { opacity: 1; top: 0; right: 0; transform: translate(0, 0) scale(1); }
+}
+
+@keyframes bracketBL_Intro {
+  0% { opacity: 0; bottom: 50%; left: 50%; transform: translate(-100%, 100%) scale(0.5); }
+  4% { opacity: 1; bottom: 50%; left: 50%; transform: translate(-100%, 100%) scale(0.6); }
+  48% { opacity: 1; bottom: 50%; left: 50%; transform: translate(-100%, 100%) scale(0.6); }
+  100% { opacity: 1; bottom: 0; left: 0; transform: translate(0, 0) scale(1); }
+}
+
+@keyframes bracketBR_Intro {
+  0% { opacity: 0; bottom: 50%; right: 50%; transform: translate(100%, 100%) scale(0.5); }
+  4% { opacity: 1; bottom: 50%; right: 50%; transform: translate(100%, 100%) scale(0.6); }
+  48% { opacity: 1; bottom: 50%; right: 50%; transform: translate(100%, 100%) scale(0.6); }
+  100% { opacity: 1; bottom: 0; right: 0; transform: translate(0, 0) scale(1); }
+}
+
+@keyframes groupRotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 /* ── Page wrapper — stars bg fixed so it persists through all sections ── */
 .page {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  background-image: url("/background_stars.png");
+  width: 100vw;
+  height: 100dvh; /* responsive to iphone address bar */
+  overflow: hidden; /* we handle scrolling via JS transforms */
+  background-color: #03040c;
+  background-image: url("/background_images/background_stars.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
+  position: relative;
 }
 
 /* ── Container that slides up and down ── */
@@ -104,7 +150,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2.5rem;
+  gap: clamp(1rem, 4vh, 2.5rem);
   text-align: center;
 }
 
@@ -117,7 +163,7 @@
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  padding: 1.6rem 2.8rem;
+  padding: clamp(0.5rem, 2vh, 1.6rem) clamp(1rem, 3vw, 2.8rem);
 }
 
 /* ── All 4 corner brackets — base shared styles ── */
@@ -131,69 +177,55 @@
   pointer-events: none;
 }
 
-/* Square terminal dots on each open end of every bracket arm */
-.hudCornerTL::before,
-.hudCornerTL::after,
-.hudCornerTR::before,
-.hudCornerTR::after,
-.hudCornerBL::before,
-.hudCornerBL::after,
-.hudCornerBR::before,
-.hudCornerBR::after {
-  content: "";
-  position: absolute;
-  width: 3px;
-  height: 3px;
-  background: rgba(255, 255, 255, 0.60);
-}
+/* Terminal dots removed as requested */
 
 /* ── Top-left: top border + left border ── */
 .hudCornerTL {
   top: 0;
   left: 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.60);
-  border-left: 1px solid rgba(255, 255, 255, 0.60);
+  border-top: 2px solid rgba(255, 255, 255, 0.60);
+  border-left: 2px solid rgba(255, 255, 255, 0.60);
+  animation: bracketTL_Intro 1.25s cubic-bezier(0.2, 1, 0.3, 1) forwards;
 }
-/* dot at open end of top arm (right side) */
-.hudCornerTL::before { top: -1.5px; right: -1.5px; }
-/* dot at open end of left arm (bottom side) */
-.hudCornerTL::after  { bottom: -1.5px; left: -1.5px; }
 
 /* ── Top-right: top border + right border ── */
 .hudCornerTR {
   top: 0;
   right: 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.60);
-  border-right: 1px solid rgba(255, 255, 255, 0.60);
+  border-top: 2px solid rgba(255, 255, 255, 0.60);
+  border-right: 2px solid rgba(255, 255, 255, 0.60);
+  animation: bracketTR_Intro 1.25s cubic-bezier(0.2, 1, 0.3, 1) forwards;
 }
-/* dot at open end of top arm (left side) */
-.hudCornerTR::before { top: -1.5px; left: -1.5px; }
-/* dot at open end of right arm (bottom side) */
-.hudCornerTR::after  { bottom: -1.5px; right: -1.5px; }
 
 /* ── Bottom-left: bottom border + left border ── */
 .hudCornerBL {
   bottom: 0;
   left: 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.60);
-  border-left: 1px solid rgba(255, 255, 255, 0.60);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.60);
+  border-left: 2px solid rgba(255, 255, 255, 0.60);
+  animation: bracketBL_Intro 1.25s cubic-bezier(0.2, 1, 0.3, 1) forwards;
 }
-/* dot at open end of bottom arm (right side) */
-.hudCornerBL::before { bottom: -1.5px; right: -1.5px; }
-/* dot at open end of left arm (top side) */
-.hudCornerBL::after  { top: -1.5px; left: -1.5px; }
 
 /* ── Bottom-right: bottom border + right border ── */
 .hudCornerBR {
   bottom: 0;
   right: 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.60);
-  border-right: 1px solid rgba(255, 255, 255, 0.60);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.60);
+  border-right: 2px solid rgba(255, 255, 255, 0.60);
+  animation: bracketBR_Intro 1.25s cubic-bezier(0.2, 1, 0.3, 1) forwards;
 }
-/* dot at open end of bottom arm (left side) */
-.hudCornerBR::before { bottom: -1.5px; left: -1.5px; }
-/* dot at open end of right arm (top side) */
-.hudCornerBR::after  { top: -1.5px; right: -1.5px; }
+
+.hudCornerGroup {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 1;
+  animation: groupRotate 0.5s cubic-bezier(0.4, 0, 0.3, 1) 0s forwards;
+}
+/* corner dots removed */
 
 /* ── HUD rail — thin solid divider with square terminal dots ── */
 .hudRail {
@@ -202,40 +234,26 @@
   height: 1px;
   background: rgba(255, 255, 255, 0.60);
   margin: 0.1rem 0;
+  opacity: 0;
+  animation: hudStatusPop 0.4s cubic-bezier(0.2, 1, 0.3, 1) 1.25s forwards;
 }
-/* Left terminal dot */
-.hudRail::before {
-  content: "";
-  position: absolute;
-  left: -1.5px;
-  top: -1.5px;
-  width: 4px;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.60);
-}
-/* Right terminal dot */
-.hudRail::after {
-  content: "";
-  position: absolute;
-  right: -1.5px;
-  top: -1.5px;
-  width: 4px;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.60);
-}
+/* .hudRail dots removed */
 
 /* ── HUD status bar — decorative readout ── */
 .hudStatusBar {
   display: flex;
   gap: 2rem;
   font-family: var(--font-share-tech-mono), monospace;
-  font-size: clamp(0.5rem, 1vw, 0.68rem);
+  font-size: clamp(0.7rem, 1.2vw, 0.85rem);
+  font-weight: 800;
   color: color-mix(in srgb, var(--clr-yellow) 75%, transparent);
   letter-spacing: 0.15em;
   text-transform: uppercase;
   white-space: nowrap;
   pointer-events: none;
   padding: 0 0.4rem;
+  opacity: 0;
+  animation: hudStatusPop 0.4s cubic-bezier(0.2, 1, 0.3, 1) 1.25s forwards;
 }
 
 .hudStatusBar span:last-child {
@@ -255,7 +273,7 @@
 
 .name {
   font-family: var(--font-rajdhani), sans-serif;
-  font-size: clamp(2.4rem, 6vw, 5rem);
+  font-size: clamp(1.8rem, 5vw, 4rem);
   font-weight: 700;
   color: #ffffff;
   letter-spacing: 0.15em;
@@ -267,6 +285,8 @@
   user-select: none;
   position: relative;
   z-index: 2;
+  opacity: 0;
+  animation: namePop 0.5s cubic-bezier(0.2, 1, 0.3, 1) 1.5s forwards;
 }
 
 /* ── Animated Subtitle Carousel ── */
@@ -277,6 +297,8 @@
   overflow: hidden;
   display: flex;
   justify-content: center;
+  opacity: 0;
+  animation: hudStatusPop 0.6s cubic-bezier(0.2, 1, 0.3, 1) 1.75s forwards;
 }
 
 .subtitle {
@@ -285,7 +307,7 @@
   opacity: 0;
   font-family: var(--font-share-tech-mono), monospace;
   font-weight: 400;
-  font-size: clamp(1rem, 2.5vw, 1.8rem);
+  font-size: clamp(0.9rem, 2vw, 1.5rem);
   color: var(--clr-blue);
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -309,7 +331,7 @@
    ASTRONAUT
    ══════════════════════════════════════════════════════════ */
 .astronaut {
-  width: clamp(180px, 28vw, 380px);
+  width: clamp(144px, 22vw, 304px);
   height: auto;
   animation: float 4s ease-in-out infinite;
   filter: drop-shadow(0 12px 32px rgba(0, 0, 0, 0.55));

@@ -39,3 +39,59 @@ a {
   text-decoration: none;
 }
 
+/* ══════════════════════════════════════════════════════════
+   PORTRAIT OVERLAY
+   ══════════════════════════════════════════════════════════ */
+#portrait-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background-color: #03040c;
+  background-image: url("/background_images/background_stars.png");
+  background-size: cover;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+  padding: 2rem;
+}
+
+#portrait-overlay .icon {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 2rem;
+  color: var(--clr-blue);
+  animation: rotatePhone 2.5s infinite ease-in-out;
+}
+
+@keyframes rotatePhone {
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(-90deg); }
+  100% { transform: rotate(-90deg); }
+}
+
+#portrait-overlay h1 {
+  font-family: var(--font-rajdhani), sans-serif;
+  font-size: 2.2rem;
+  letter-spacing: 0.15em;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  color: var(--clr-yellow);
+}
+
+#portrait-overlay p {
+  font-family: var(--font-share-tech-mono), monospace;
+  font-size: 1.1rem;
+  color: var(--clr-white);
+  line-height: 1.5;
+  max-width: 320px;
+}
+
+/* Enforce landscape on smaller screens that are in portrait mode */
+@media screen and (max-width: 768px) and (orientation: portrait) {
+  #portrait-overlay {
+    display: flex;
+  }
+}

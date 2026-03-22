@@ -26,7 +26,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${rajdhani.variable} ${shareTechMono.variable}`}>
-      <body>{children}</body>
+      <body>
+        <div id="portrait-overlay">
+          <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+            <line x1="12" y1="18" x2="12.01" y2="18"></line>
+          </svg>
+          <h1>Landscape Required</h1>
+          <p>Please rotate your device to landscape for the optimal experience.</p>
+        </div>
+        {children}
+      </body>
     </html>
   );
 }
